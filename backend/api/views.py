@@ -30,8 +30,8 @@ class UserViewSet(UserViewSet):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     @action(
-        detail=False,  # Работа с коллекцией
-        methods=['get'],  # Методы
+        detail=False,
+        methods=['GET'],
         permission_classes=(permissions.IsAuthenticated,)
     )
     def subscriptions(self, request):
@@ -46,8 +46,8 @@ class UserViewSet(UserViewSet):
         return self.get_paginated_response(serializer.data)
 
     @action(
-        methods=['post', 'delete'],  # Методы которые будут применены
-        detail=True,  # Работа с одним объектом
+        methods=['POST', 'DELETE'],
+        detail=True,
         permission_classes=(permissions.IsAuthenticated,)
     )
     def subscribe(self, request, id):
@@ -129,13 +129,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 is_favorited=Exists(
                     Bookmark.objects.filter(
                         user=user,
-                        recipe=OuterRef("pk")
+                        recipe=OuterRef("id")
                     )
                 ),
                 is_in_shopping_cart=Exists(
                     Cart.objects.filter(
                         user=user,
-                        recipe=OuterRef("pk")
+                        recipe=OuterRef("id")
                     )
                 )
             )
@@ -154,18 +154,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['POST', 'DELETE'],
         permission_classes=(permissions.IsAuthenticated,)
     )
-    def favorite(self, request, pk):
+    def favorite(self, request, id):
         '''Добавление и удаление в избранное'''
-        recipe = get_object_or_404(Recipe, id=pk)
+        recipe = get_object_or_404(Recipe, id=id)
         if request.method == 'POST':
-            if Bookmark.objects.filter(
-                user=request.user,
-                recipe__id=pk
-            ).exists():
-                return Response(
-                    {"errors": "Рецепт уже в избранном"},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
             Bookmark.objects.create(
                 user=request.user,
                 recipe=recipe
@@ -174,11 +166,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         if Bookmark.objects.filter(
             user=request.user,
-            recipe__id=pk
+            recipe__id=id
         ).exists():
             Bookmark.objects.filter(
                 user=request.user,
-                recipe__id=pk
+                recipe__id=id
             ).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)
@@ -188,18 +180,10 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['POST', 'DELETE'],
         permission_classes=(permissions.IsAuthenticated,)
     )
-    def shopping_cart(self, request, pk):
+    def shopping_cart(self, request, id):
         '''Корзина'''
-        recipe = get_object_or_404(Recipe, id=pk)
+        recipe = get_object_or_404(Recipe, id=id)
         if request.method == 'POST':
-            if Cart.objects.filter(
-                user=request.user,
-                recipe_id=pk
-            ).exists():
-                return Response(
-                    {"errors": "Рецепт уже в корзину"},
-                    status=status.HTTP_400_BAD_REQUEST
-                )
             serializer = ShoppintCartSerializer(
                 data={
                     'user': request.user.id,
@@ -215,11 +199,11 @@ class RecipeViewSet(viewsets.ModelViewSet):
             )
         if Cart.objects.filter(
             user=request.user,
-            recipe__id=pk
+            recipe__id=id
         ).exists():
             Cart.objects.filter(
                 user=request.user,
-                recipe__id=pk
+                recipe__id=id
             ).delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
         return Response(status=status.HTTP_400_BAD_REQUEST)

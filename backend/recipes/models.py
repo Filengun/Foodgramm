@@ -9,12 +9,20 @@ class Tag(models.Model):
         max_length=200,
         unique=True,
         db_index=True,
-        verbose_name='Тег'
+        verbose_name='Тег',
+        validators=[RegexValidator(
+            regex=r'[a-fA-FА-Яа-я0-9]',
+            message='Недопустимое название'
+        )],
     )
     color = models.CharField(
         max_length=7,
         unique=True,
-        verbose_name='Цвет тега'
+        verbose_name='Цвет тега',
+        validators=[RegexValidator(
+            regex=r'#+[a-fA-F0-9]',
+            message='Неверный hex-code цвета'
+        )],
     )
     slug = models.SlugField(
         max_length=200,
@@ -81,7 +89,13 @@ class Recipe(models.Model):
         verbose_name='Картинка'
     )
     cooking_time = models.PositiveIntegerField(
-        verbose_name='Затраченое время на приготовление'
+        verbose_name='Затраченое время на приготовление',
+        validators=[
+            MinValueValidator(
+                1,
+                message='Нельзя за столько приготовить'
+            )
+        ]
     )
     pub_date = models.DateTimeField(
         auto_now_add=True,

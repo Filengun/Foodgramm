@@ -33,19 +33,18 @@ class User(AbstractUser):
         max_length=150,
         verbose_name='Пароль'
     )
-    is_admin = models.BooleanField(
-        verbose_name='администратор',
-        default=False
-    )
-    # В кач-ве уникального идентификатора mail
     USERNAME_FIELD = 'email'
-    # Обязательные параметры при создании аккаунта
     REQUIRED_FIELDS = [
         'password',
         'username',
         'first_name',
         'last_name'
     ]
+
+    @property
+    def is_admin(self):
+        """Администратор"""
+        return self.role == 'admin' or self.is_superuser
 
     class Meta:
         verbose_name = 'Пользователь'

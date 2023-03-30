@@ -14,6 +14,15 @@ class UserSerializer(UserSerializer):
     '''Сериализатор для User'''
     is_subscribed = serializers.SerializerMethodField(read_only=True)
 
+    def get_is_subscribed(self, obj):
+        '''Возвращаем True если юзер подписан на автора'''
+        user = self.context.get('request').user
+        if not user or user.is_anonymous:
+            return False
+        return Subscription.objects.filter(
+            subscriber=user,
+            author=obj).exists()
+
     class Meta:
         model = User
         fields = (
@@ -25,28 +34,9 @@ class UserSerializer(UserSerializer):
             'is_subscribed',
         )
 
-    def get_is_subscribed(self, obj):
-        '''Возвращаем True если юзер подписан на автора'''
-        request = self.context.get('request').user
-        if request is None or request.is_anonymous:
-            return False
-        return Subscription.objects.filter(
-            subscriber=request,
-            author=obj).exists()
-
 
 class CreateUserSerializer(UserCreateSerializer):
     '''Сериализатор для создания профиля'''
-    class Meta:
-        model = User
-        fields = (
-            "email",
-            "id",
-            "username",
-            "password",
-            "first_name",
-            "last_name"
-        )
 
     def create(self, validated_data):
         user_create = User.objects.create(
@@ -58,6 +48,17 @@ class CreateUserSerializer(UserCreateSerializer):
         user_create.set_password(validated_data.get("password"))
         user_create.save()
         return user_create
+
+    class Meta:
+        model = User
+        fields = (
+            "email",
+            "id",
+            "username",
+            "password",
+            "first_name",
+            "last_name"
+        )
 
 
 class HexColorForTag(serializers.Field):
@@ -89,6 +90,7 @@ class TagSerializer(serializers.ModelSerializer):
 
 class IngredientSerializer(serializers.ModelSerializer):
     '''Сериализатор для ингридиентов'''
+
     class Meta:
         model = Ingredient
         fields = (
@@ -170,21 +172,7 @@ class RecipePostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     ingredients = PostIngridientsForRecipeSerializer(many=True)
 
-    class Meta:
-        model = Recipe
-        fields = (
-            'id',
-            'ingredients',
-            'tags',
-            'image',
-            'name',
-            'text',
-            'cooking_time',
-            'author',
-            'pub_date',
-        )
-
-    def create_ingredients(self, ingredients, recipe):
+    def _create_ingredients(self, ingredients, recipe):
         create_ingredient = [
             IngredientForRecipe(
                 recipe=recipe,
@@ -197,8 +185,13 @@ class RecipePostSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        ingredient = validated_data.pop("ingredients")
-        tags = validated_data.pop("tags")
+        try:
+            tags = validated_data.pop('tags')
+            ingredient = validated_data.pop('ingredients')
+        except Exception:
+            raise KeyError(
+                'Ингредиент и тег обязательны к заполнению!'
+            )
         recipe = Recipe.objects.create(**validated_data)
         recipe.tags.set(tags)
         self.create_ingredients(ingredient, recipe)
@@ -226,24 +219,25 @@ class RecipePostSerializer(serializers.ModelSerializer):
     def to_representation(self, obj):
         return RecipeGetSerializer(obj, context=self.context).data
 
+    class Meta:
+        model = Recipe
+        fields = (
+            'id',
+            'ingredients',
+            'tags',
+            'image',
+            'name',
+            'text',
+            'cooking_time',
+            'author',
+            'pub_date',
+        )
+
 
 class SubscriberSerializer(UserSerializer):
     '''Сериализатор подписок для вывода информции'''
     recipes_count = serializers.SerializerMethodField(read_only=True)
     recipes = serializers.SerializerMethodField(read_only=True)
-
-    class Meta:
-        model = User
-        fields = (
-            'email',
-            'id',
-            'username',
-            'first_name',
-            'last_name',
-            'is_subscribed',
-            'recipes',
-            'recipes_count'
-        )
 
     def get_recipes_count(self, obj):
         '''Подсчитываем количество рецептов'''
@@ -265,9 +259,23 @@ class SubscriberSerializer(UserSerializer):
             context={'request': request}
         ).data
 
+    class Meta:
+        model = User
+        fields = (
+            'email',
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'is_subscribed',
+            'recipes',
+            'recipes_count'
+        )
+
 
 class SubscriberListSerializer(serializers.ModelSerializer):
     '''Сериализатор для анализа подписок для POST запроса'''
+
     class Meta:
         model = Subscription
         fields = (
@@ -282,7 +290,6 @@ class SubscriberRecipeSerializer(serializers.ModelSerializer):
     на которого подписан юзер.
     Предназначен для сериализатора SubscriberSerializer
     '''
-
     image = Base64ImageField()
 
     class Meta:
