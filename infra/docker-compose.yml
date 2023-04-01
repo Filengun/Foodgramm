@@ -9,8 +9,7 @@ services:
       - ./.env
 
   backend:
-    build: ../backend/
-    # image: filengun/backend:latest
+    image: filengun/backend:latest
     restart: always
     volumes:
       - static_value:/app/static/
@@ -21,16 +20,14 @@ services:
       - .env
 
   frontend:
-    # image: filengun/frontend:latest
-    build: ../frontend/
-      # context: ../frontend/
-      # dockerfile: Dockerfile
+    build:
+      context: ../frontend/
+      dockerfile: Dockerfile
     volumes:
       - ../frontend/:/app/result_build/
 
   nginx:
-    # image: nginx:1.21.3-alpine
-    image: nginx:1.19.3
+    image: nginx:1.21.3-alpine
     ports:
       - "80:80"
     volumes:
