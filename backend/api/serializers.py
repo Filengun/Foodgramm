@@ -68,10 +68,9 @@ class HexColorForTag(serializers.Field):
 
     def to_internal_value(self, data):
         try:
-            data = webcolors.hex_to_name(data)
+            return webcolors.hex_to_name(data)
         except ValueError:
             raise serializers.ValidationError("Для этого цвета нет имени")
-        return data
 
 
 class TagSerializer(serializers.ModelSerializer):
