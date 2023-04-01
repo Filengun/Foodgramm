@@ -43,6 +43,12 @@ jobs:
           context: ./backend/
           push: true
           tags: filengun/backend:latest
+      - name: Push to DockerHub frontend
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          context: ./frontend/
+          tags: filengun/frontend:latest
 
   deploy:
     runs-on: ubuntu-latest
