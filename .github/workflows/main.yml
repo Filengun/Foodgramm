@@ -57,7 +57,6 @@ jobs:
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
           sudo docker pull filengun/backend:latest
-          sudo docker pull filengun/frontend:latest
           sudo docker-compose stop
           sudo docker-compose rm backend
           touch .env
