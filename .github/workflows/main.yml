@@ -62,7 +62,6 @@ jobs:
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         script: |
-          cd infra/
           sudo docker pull filengun/backend:latest
           sudo docker pull filengun/frontend:latest
           sudo docker-compose stop
