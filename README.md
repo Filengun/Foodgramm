@@ -108,14 +108,25 @@ PATCH
 POST api/users/
 ```
 {
-  "email": "e3@mail.ru",
-  "first_name": "f3",
-  "last_name": "l3",
-	"username": "m3",
-	"password": "Bom8cuz3"
+  "email": "filengun@mail.ru",
+  "first_name": "oleg,
+  "last_name": "maslenikov",
+  "username": "filengun",
+  "password": "12356879"
 }
 ```
-
-
+POST api/auth/token/login/
+```
+{
+    "email": "filengun@mail.ru",
+    "password": "12356879"
+}
+```
+Получаем ответ
+```
+{
+    "auth_token":"846445advae8abg4dzdba6dcda6ca6saeg8avz3a"
+}
+```
 
 [Олег](https://github.com/Filengun/) - создатель.
