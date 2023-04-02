@@ -61,51 +61,60 @@
 
 ### Про .env
 Необходимо обязательно создать папку .env в папке infra и прописать такие параметры
--```Ваша БД: DB_ENGINE=django.db.backends.postgresql```
--```Имя БД: DB_NAME=```
--```Логин для БД: POSTGRES_USER=```
--```Пароль для этого логина: POSTGRES_PASSWORD=```
--```Название сервиса (контейнера): DB_HOST=```
--```Порт для подключения к БД: DB_PORT=```
+- ```Ваша БД: DB_ENGINE=django.db.backends.postgresql```
+- ```Имя БД: DB_NAME=```
+- ```Логин для БД: POSTGRES_USER=```
+- ```Пароль для этого логина: POSTGRES_PASSWORD=```
+- ```Название сервиса (контейнера): DB_HOST=```
+- ```Порт для подключения к БД: DB_PORT=```
 
 ### Какие API запросы есть в проекте
 
 GET
--```/api/users/me/```
--```/api/users/{id}/```
--```/api/users/```
--```/api/users/subscriptions/```
--```/api/tags/```
--```/api/tags/{id}/```
--```/api/ingredients/```
--```/api/ingredients/{id}/```
--```/api/recipes/```
--```/api/recipes/?author=1/```
--```/api/recipes/?tags=breakfast/```
--```/api/recipes/{id}/```
--```/api/recipes/download_shopping_cart/```
+- ```/api/users/me/```
+- ```/api/users/{id}/```
+- ```/api/users/```
+- ```/api/users/subscriptions/```
+- ```/api/tags/```
+- ```/api/tags/{id}/```
+- ```/api/ingredients/```
+- ```/api/ingredients/{id}/```
+- ```/api/recipes/```
+- ```/api/recipes/?author=1/```
+- ```/api/recipes/?tags=breakfast/```
+- ```/api/recipes/{id}/```
+- ```/api/recipes/download_shopping_cart/```
 
 POST
--```/api/users/```
--```/api/users/set_password/```
--```/api/auth/token/login/```
--```/api/auth/token/logout/```
--```/api/users/{id}/subscribe/```
--```/api/recipes/```
--```/api/recipes/{id}/favorite/```
--```/api/recipes/{id}/shopping_cart/```
+- ```/api/users/```
+- ```/api/users/set_password/```
+- ```/api/auth/token/login/```
+- ```/api/auth/token/logout/```
+- ```/api/users/{id}/subscribe/```
+- ```/api/recipes/```
+- ```/api/recipes/{id}/favorite/```
+- ```/api/recipes/{id}/shopping_cart/```
 
 DELETE
--```/api/users/{id}/subscribe/```
--```/api/recipes/{id}/```
--```/api/recipes/{id}/favorite/```
--```/api/recipes/{id}/shopping_cart/```
+- ```/api/users/{id}/subscribe/```
+- ```/api/recipes/{id}/```
+- ```/api/recipes/{id}/favorite/```
+- ```/api/recipes/{id}/shopping_cart/```
 
 PATCH
--```/api/recipes/{id}/shopping_cart/```
+- ```/api/recipes/{id}/shopping_cart/```
 
-
-
+Пример из запроса
+POST api/users/
+```
+{
+  "email": "e3@mail.ru",
+  "first_name": "f3",
+  "last_name": "l3",
+	"username": "m3",
+	"password": "Bom8cuz3"
+}
+```
 
 
 
