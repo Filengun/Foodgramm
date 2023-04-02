@@ -130,13 +130,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 is_favorited=Exists(
                     Bookmark.objects.filter(
                         user=user,
-                        recipe=OuterRef("id")
+                        recipe=OuterRef("pk")
                     )
                 ),
                 is_in_shopping_cart=Exists(
                     Cart.objects.filter(
                         user=user,
-                        recipe=OuterRef("id")
+                        recipe=OuterRef("pk")
                     )
                 )
             )
