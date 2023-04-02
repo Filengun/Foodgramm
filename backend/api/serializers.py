@@ -208,7 +208,7 @@ class RecipePostSerializer(serializers.ModelSerializer):
         tags = self.initial_data.get('tags')
         instance.tags.set(tags)
         IngredientForRecipe.objects.filter(recipe=instance).all().delete()
-        self.create_ingredients(
+        self._create_ingredients(
             validated_data.get('ingredients'),
             instance
         )
