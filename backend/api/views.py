@@ -155,8 +155,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['POST', 'DELETE'],
         permission_classes=(permissions.IsAuthenticated,)
     )
-    def favorite(self, request, id):
+    def favorite(self, request, pk):
         '''Добавление и удаление в избранное'''
+        id = pk
         recipe = get_object_or_404(Recipe, id=id)
         if request.method == 'POST':
             Bookmark.objects.create(
@@ -181,8 +182,9 @@ class RecipeViewSet(viewsets.ModelViewSet):
         methods=['POST', 'DELETE'],
         permission_classes=(permissions.IsAuthenticated,)
     )
-    def shopping_cart(self, request, id):
+    def shopping_cart(self, request, pk):
         '''Корзина'''
+        id = pk
         recipe = get_object_or_404(Recipe, id=id)
         if request.method == 'POST':
             serializer = ShoppintCartSerializer(
