@@ -193,7 +193,7 @@ class RecipePostSerializer(serializers.ModelSerializer):
             )
         recipe = Recipe.objects.create(**validated_data)
         recipe.tags.set(tags)
-        self.create_ingredients(ingredient, recipe)
+        self._create_ingredients(ingredient, recipe)
         return recipe
 
     @transaction.atomic

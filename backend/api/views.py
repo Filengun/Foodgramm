@@ -81,7 +81,7 @@ class UserViewSet(UserViewSet):
             )
             subscription.delete()
             return Response(status=status.HTTP_204_NO_CONTENT)
-        # return Response(status=status.HTTP_204_NO_CONTENT)
+        return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class IngredientViewSet(viewsets.ModelViewSet):
@@ -126,7 +126,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         )
         user = self.request.user
         if user.is_authenticated:
-            queryset = queryset.annotate(
+            return queryset.annotate(
                 is_favorited=Exists(
                     Bookmark.objects.filter(
                         user=user,
