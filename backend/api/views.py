@@ -151,7 +151,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         instance.delete()
 
     @action(
-        detail=True,
+        detail=False,
         methods=['POST', 'DELETE'],
         permission_classes=(permissions.IsAuthenticated,)
     )
@@ -177,7 +177,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @action(
-        detail=True,
+        detail=False,
         methods=['POST', 'DELETE'],
         permission_classes=(permissions.IsAuthenticated,)
     )
