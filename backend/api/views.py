@@ -130,13 +130,13 @@ class RecipeViewSet(viewsets.ModelViewSet):
                 is_favorited=Exists(
                     Bookmark.objects.filter(
                         user=user,
-                        recipe=OuterRef("id")
+                        recipe=OuterRef("pk")
                     )
                 ),
                 is_in_shopping_cart=Exists(
                     Cart.objects.filter(
                         user=user,
-                        recipe=OuterRef("id")
+                        recipe=OuterRef("pk")
                     )
                 )
             )
@@ -151,7 +151,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         instance.delete()
 
     @action(
-        detail=False,
+        detail=True,
         methods=['POST', 'DELETE'],
         permission_classes=(permissions.IsAuthenticated,)
     )
@@ -177,7 +177,7 @@ class RecipeViewSet(viewsets.ModelViewSet):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
     @action(
-        detail=False,
+        detail=True,
         methods=['POST', 'DELETE'],
         permission_classes=(permissions.IsAuthenticated,)
     )
