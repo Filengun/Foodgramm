@@ -5,8 +5,7 @@
 
 ## Описание
 Документация
-После запуска проекта (*см. ниже) по адресу http://51.250.78.250/api/docs/ доступна документация к проекту.
-
+Документация доступна по адресу http://51.250.78.250/api/docs/.
 
 ## Стек технологий
 - [Python 3.7+](https://www.python.org/)
@@ -17,6 +16,9 @@
 - [Docker 4.16.2](https://docs.docker.com/)
 - [Docker-compose](https://docs.docker.com/compose/)
 - [GitHub Actions](https://docs.github.com/en/actions)
+- [Yandex.Cloud](https://cloud.yandex.ru/)
+- [Simple JWT](https://django-rest-framework-simplejwt.readthedocs.io/en/latest/)
+- [PostgreSQL](https://www.postgresql.org/)
 - [Yandex.Cloud](https://cloud.yandex.ru/)
 
 
