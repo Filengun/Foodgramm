@@ -1,7 +1,6 @@
 ![example event parameter](https://github.com/Filengun/Foodgramm/actions/workflows/main.yml/badge.svg)
 
-# foodgram-project-react
-Foodgram
+# Foodgram
 ### Дипломный проект Я.Практикума
 
 ## Описание
