@@ -1,6 +1,7 @@
-![example event parameter](https://github.com/Filengun/foodgram-project-react/actions/workflows/main.yml/badge.svg)
+![example event parameter](https://github.com/Filengun/Foodgramm/actions/workflows/main.yml/badge.svg)
 
 # foodgram-project-react
+Foodgram
 ### Дипломный проект Я.Практикума
 
 ## Описание
@@ -23,13 +24,13 @@
 ### [Полная документация API (redoc.yaml)](http://51.250.78.250/api/docs/)
 
 ### Как заппустить локально
-1) Кланируем репозиторий ```git clone git@github.com:Filengun/foodgram-project-react.git```
-2) Создайте файл содержащий переменные виртуального окружения (.env):  ```cd foodgram-project-react/infra/ touch .env```
+1) Кланируем репозиторий ```git clone git@github.com:Filengun/Foodgramm.git```
+2) Создайте файл содержащий переменные виртуального окружения (.env):  ```cd Foodgramm/infra/ touch .env```
 3) Собираем образ: 
-- ```cd foodgram-project-react/backend/```
+- ```cd Foodgramm/backend/```
 - ```docker build -t <логин на DockerHub>/<название для образа>:<флаг, например версия приложения> ```
 4) Собираем контейнеры и выполняем миграции
-- ```cd foodgram-project-react/infra/```
+- ```cd Foodgramm/infra/```
 - ```docker-compose up -d или docker-compose up -d --build```
 - ```docker-compose exec backend python3 manage.py migrate```
 5) Как создать суперюзера
